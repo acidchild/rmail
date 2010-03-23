@@ -10,29 +10,24 @@ use Email::Simple::Creator;
 use File::Slurp qw( slurp );
 use Getopt::Long;
 Getopt::Long::Configure('no_auto_abbrev');
-
-# your fullname i.e. 'Ash Palmer'
-my $fullname = '';
-# your email address
-my $emailaddr = '';
-# your email username i.e. 'ash@7a69.co.uk' (i run postfix)
-my $username = '';
-# your email password
-my $password = '';
-# your SMTP host i.e. 'mail.example.org'
-my $host = '';
-# your email subject i.e ' Seeking employment ' 
-my $subject = '';
-# your email body i.e. cover letter 
-my $emailbody = '';
-
-my ($firstname, $lastname) = split(' ', $username, 2);
-
+use AppConfig;
 
 my $force;
 my $results = GetOptions( 'f' => \$force );
 
+my $config = AppConfig->new( \%cfg );
+$config->file("~/.rmailrc");
+
 my @contacts = slurp($ARGV[0]);
+
+
+my ($firstname, $lastname) = split(' ', $username, 2);
+
+
+
+
+
+
 
 for my $contact (@contacts) {
 	my $cmessage = slurp($emailbody);
@@ -61,7 +56,7 @@ sub mailsend {
 		header => [
 			From    => "$firstname $lastname \<$emailaddr\>",
 			To      => "$to",
-			Subject => "Seeking Career Opportunity",
+			Subject => "$subject",
 		],
 		body => $body,
 	);
