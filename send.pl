@@ -23,35 +23,24 @@ my $password = '';
 my $host = '';
 # your email subject i.e ' Seeking employment ' 
 my $subject = '';
-
-my $force;
+# your email body i.e. cover letter 
+my $emailbody = '';
 
 my ($firstname, $lastname) = split(' ', $username, 2);
 
+
+my $force;
 my $results = GetOptions( 'f' => \$force );
 
 my @contacts = slurp($ARGV[0]);
 
 for my $contact (@contacts) {
-	my ($name, $email, $comp) = split(/:/, $contact, 3);
-	
-	chomp($email);
-	chomp($name);
-	chomp($comp);
+	my $cmessage = slurp($emailbody);
 
-	my $cmessage = slurp('/home/ash/pl/cl.txt');
-
-	if ($name =~ /twho/) {
-		$cmessage =~ s/TOWHO/To whom it may concern/;
-	} else {
-		$cmessage =~ s/TOWHO/Dear $name/;
-	}
-
-	$cmessage =~ s/COMP/$comp/;
-	print "Sending Email to $name \@ $email \@ $comp\n";
+	print "Sending Email to $name \@ $email\n";
 
 	if ($force) {
-		mailsend($email, $cmessage);
+		mailsend($contact, $cmessage);
 	}
 }
 
