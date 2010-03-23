@@ -12,7 +12,9 @@ use Getopt::Long;
 Getopt::Long::Configure('no_auto_abbrev');
 
 # your fullname i.e. 'Ash Palmer'
-my $fillename = ''
+my $fullname = '';
+# your email address
+my $emailaddr = '';
 # your email username i.e. 'ash@7a69.co.uk' (i run postfix)
 my $username = '';
 # your email password
@@ -68,7 +70,7 @@ sub mailsend {
     
 	my $message = Email::Simple->create(
 		header => [
-			From    => 'Ash Palmer <ash@7a69.co.uk>',
+			From    => "$firstname $lastname \<$emailaddr\>",
 			To      => "$to",
 			Subject => "Seeking Career Opportunity",
 		],
@@ -77,7 +79,7 @@ sub mailsend {
     
 	eval {
 		$sender->send($message, {
-			from => 'ash@7a69.co.uk',
+			from => [ "$emailaddr" ],
 			to   => [ "$to" ],
 		} );
 	};
