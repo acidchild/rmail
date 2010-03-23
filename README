@@ -1,7 +1,6 @@
 rmail.pl - Resume Mailer + TLS/SMTP 
 Ash Palmer <ash@7a69.co.uk>
 
-Useage: rmail.pl contact-list.txt
+Useage: rmail.pl -[f] contact-list.txt
 
-Reme
-
+-f	-	force email send (default: dryrun)
